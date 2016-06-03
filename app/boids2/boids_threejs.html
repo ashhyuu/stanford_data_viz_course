@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Three.js Boids</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				color: #808080;
+				font-family:Monospace;
+				font-size:13px;
+				text-align:center;
+
+				background-color: #ffffff;
+				margin: 0px;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+
+		<div class=".col-xs-12 .col-md-8">  
+		<h3>Boids Three.js</h3>
+		<hr>
+		<div id="gui_container" style="float:right;"></div>
+		<canvas id="three_boid"></canvas>
+		<div id="yoyo"></div>
+		</div>
+
+		<!-- Other Libs -->
+		<script src="assets/js/libs/ui/dat.gui.min.js"></script>
+		<script src="assets/js/libs/ui/stats.min.js"></script>
+		<script src="assets/js/libs/maths/vector3.js"></script>
+
+		<!-- Renderer -->
+		<script src="assets/js/libs/renderers/three/three.min.js"></script>
+		<script src="assets/js/libs/renderers/three/plugins/AxesHelper2.js"></script>
+		<script src="assets/js/libs/renderers/three/plugins/DeviceOrientationControls.js"></script>
+		<script src="assets/js/libs/renderers/three/plugins/OrbitControls.js"></script>
+
+		<!-- Physics - Boid -->
+		<script src="assets/js/libs/physics/boids.js"></script>
+
+		<!-- Render - Boid -->
+		<script src="assets/js/main/boids_prototypes_for_three.js"></script>
+		<script src="assets/js/main/boids_three.js"></script>
+		
+	</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Three.js Boids</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				color: #808080;
+				font-family:Monospace;
+				font-size:13px;
+				text-align:center;
+
+				background-color: #ffffff;
+				margin: 0px;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+
+		<div class=".col-xs-12 .col-md-8">  
+		<h3>Boids Three.js</h3>
+		<p>
+							This swarming simulation uses the Boids algorithm, which was developed in 1986 to simulate the flocking behavior of birds. The user can interact with and change the visualization by adjusting the various parameters found in the box to the right. The main library used for this implementation is:<br>
+                <a href="https://github.com/mrdoob/three.js/" target="_blank">Three.js</a>					</p>
+		<hr>
+		<div id="container"></div>
+		<canvas id="three_boid"></canvas>
+		</div>
+
+		<!-- Other Libs -->
+		<script src="/assets/js/libs/ui/dat.gui.min.js"></script>
+		<script src="/assets/js/libs/ui/stats.min.js"></script>
+		<script src="/assets/js/libs/maths/vector3.js"></script>
+
+		<!-- Renderer -->
+		<script src="/assets/js/libs/renderers/three/three.min.js"></script>
+		<script src="/assets/js/libs/renderers/three/plugins/AxesHelper2.js"></script>
+		<script src="/assets/js/libs/renderers/three/plugins/DeviceOrientationControls.js"></script>
+		<script src="/assets/js/libs/renderers/three/plugins/OrbitControls.js"></script>
+
+		<!-- Physics - Boid -->
+		<script src="/assets/js/libs/physics/boids.js"></script>
+
+		<!-- Render - Boid -->
+		<script src="/assets/js/main/boids_prototypes_for_three.js"></script>
+		<script src="/assets/js/main/boids_three.js"></script>
+		
+	</body>
+</html>

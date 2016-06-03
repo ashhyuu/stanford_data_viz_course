@@ -8,6 +8,22 @@
 		<!-- site dependencies -->
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
 		<link href="assets/css/style.css" rel="stylesheet">
+
+		<!-- dcjs_baseball -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.css" rel="stylesheet">
+        <link href="assets/css/dcjs_baseball.css" rel="stylesheet">
+        <link href="http://seiyria.com/bootstrap-slider/css/bootstrap-slider.css" rel="stylesheet">
+
+        <!-- Iris Crossfilter -->
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.css" rel="stylesheet">
+		<link href="assets/css/iris_crossfilter.css" rel="stylesheet">
+
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css" rel="stylesheet">
+		<link href="https://lit-coast-4367.herokuapp.com/assets/css/c3.theme.css" rel="stylesheet">
+
+		<!-- D3 Tutorial -->
+		<link href="assets/css/d3_tutorial.css" rel="stylesheet">
+
 </head>
 <body>
 	<!-- begin wrap -->		
@@ -24,25 +40,94 @@
 
 					<!-- begin header -->
 					<div class=".col-xs-12 .col-md-8">
-						<h1>Visualization Portfolio of {Your Name Here}</h1>
+						<h1>Visualization Portfolio of Ashley Yu</h1>
 						<h4><a href='http://web.stanford.edu/~dderiso/cme151/' target='_blank'>CME 161: Data Visualization</a> <small>Spring 2016</small></h4>
 						<hr>
+		              <small><b>A Quick Table of Contents</b><br>
+		              <i>Know where you want to go? Jump to:</i><br>
+		              <a href="#baseballviz">Visualizing Baseball Statistics Using Crossfilter.js</a><br>
+		              <a href="#irisviz">The Biological Variations of Iris', Examined through DC.js and Crossfilter</a><br>
+		              <a href="#donutviz">Customize Your Donut with D3.js</a><br>
+		              <a href="#ebolaviz">The Evolution of Ebola, 2014-2016: A Story in C3.js</a><br>
+		              <a href='http://intense-falls-16505.herokuapp.com/three/particles.html'>A Particle Simulation Object</a><br>
+		              <a href='http://intense-falls-16505.herokuapp.com/three/boids_threejs.html'>A Swarming Simulation Using the Boids Algorithm</a><br>
+		              <a href='http://intense-falls-16505.herokuapp.com/yelp'>Final Project: Visualizing Yelp's Dataset - An Exploration Tool for Restaurants in Las Vegas</a><br>
+		              
+		              </small>
+		              <hr>
 					</div>
 					<!-- end header -->
 
 					<!-- begin viz 1 -->
 					<div class=".col-xs-12 .col-md-8">
-						<h3>
-							Random Triangle Meshes
+						<h3 id="baseballviz">
+							Visualizing Baseball Statistics Using Crossfilter.js <small><i><a href="#">(back to top)</a></i></small>
 						</h3>
 
 						<p>
-							This visualization is of random points being generated and plotted. At each time step, a random combination of the point's last value and a another random number is computed and plotted. The visualization therefore waxes and wanes randomly. Thin sections indicate that the value at the last timestep had a greater weight in the random combination, while thick sections indicate that randomness played a greater role. The library used is <a href="https://github.com/processing-js/processing-js/" target="_blank">processing.js</a>. (This example was made by Dave Deriso.)
+
+							The charts displayed below result from the multi-dimensional filtering mechanisms that come with Crossfilter.js. The data being visualized comes from Lahman's dataset on how many all-star games certain baseball players have appeared in over the years. Everytime one of the sliders is adjusted, the data is filtered accordingly across all dimensions and the charts are re-rendered and updated to reflect the new subset. As previously mentioned, the main libraries used are <a href="https://github.com/square/crossfilter" target="_blank">Crossfilter.js (Version 1.3.12)</a> and <a href="https://github.com/mbostock/d3" target="_blank">D3.js (Version 3.5.6)</a>. More information about Lahman's dataset can be found <a href="http://www.seanlahman.com/baseball-archive/statistics/" target="_blank">here</a>. 
 						</p>
 
 						<hr>
 
-						<canvas id="processing_random_triangle_meshes"></canvas>
+						<!--<canvas id="baseball_stats"></canvas>-->
+						<div class="well">
+  							Filter # of Games Played:&nbsp&nbsp <b>0</b>&nbsp&nbsp&nbsp&nbsp
+  							<input id="n_games_slider" type="text" />&nbsp&nbsp&nbsp&nbsp <b>100</b>
+  							 &nbsp&nbsp&nbsp&nbsp# of Games Played Range:&nbsp&nbsp <span id="n_games_slider_txt"></span>
+						</div>
+
+						<div class="well">
+  							Filter Years:&nbsp&nbsp <b>1872</b>&nbsp&nbsp&nbsp&nbsp
+  							<input id="year_slider" type="text" />&nbsp&nbsp&nbsp&nbsp <b>1905</b>
+  							
+  							 &nbsp&nbsp&nbsp&nbspYears Range:&nbsp&nbsp <span id="year_slider_txt"></span>
+						</div>
+						<div class="well">
+						
+							Select by team:&nbsp&nbsp <select onchange="intersect()" id="metric" class="wrapper-dropdown">
+							<option value ="All">All</option>
+							    <option value ="B">B</option>
+							    <option value ="C">C</option>
+							    <option value ="D">D</option>
+							    <option value ="E">E</option>
+							    <option value ="I">I</option>
+							    <option value ="K">K</option>
+							    <option value ="L">L</option>
+							    <option value ="N">N</option>
+							    <option value ="P">P</option>
+							    <option value ="S">S</option>
+							    <option value ="T">T</option>
+							    <option value ="W">W</option>
+							</select>
+
+
+							&nbsp&nbsp&nbsp&nbspSelect by player:&nbsp&nbsp <select onchange="intersect()" id="metric2" class="wrapper-dropdown">
+							<option value ="All">All</option>
+							    <option value ="batchem01">batchem01</option>
+							    <option value ="beatied01">beatied01</option>
+							    <option value ="bernhbi01">bernhbi01</option>
+							    <option value ="burkeje01">burkeje01</option>
+							    <option value ="butlefr01">butlefr01</option>
+							    <option value ="chambel01">chambel01</option>
+							    <option value ="clarkjo01">clarkjo01</option>
+							    <option value ="connojo03">connojo03</option>
+							    <option value ="conwape01">conwape01</option>
+							    <option value ="amesre01">amesre01</option>
+							</select>
+						</div>
+						
+						<div id="cfjs_baseball_container">
+        					<!--<div id="appearances_by_team"></div>
+        					<div id="cfjs_baseball_yearspan"></div>
+        					<div id="cfjs_baseball_gamesbyplayer"></div>
+        					<div id="cfjs_baseball_avggames"></div>-->
+        					
+						</div>
+
+
+
 						
 						<hr>
 
@@ -52,22 +137,124 @@
 
 					<!-- begin viz 2 -->
 					<div class=".col-xs-12 .col-md-8">
-						<h3>
-							Distribution of Wealth Inequality in Developing Nations
+						<h3 id="irisviz">
+							The Biological Variations of Iris', Examined through DC.js and Crossfilter <small><i><a href="#">(back to top)</a></i></small>
 						</h3>
 
 						<p>
-							This visualization shows... The library used is <a href="..." target="_blank">...</a>.
+							This visualization is shows the variable species, sepal lengths and widths, and petal lengths and widths of iris flowers. Each chart is linked together, so selecting a subset of one or multiple dimensions will filter and update the other dimensions accordingly. The dataset API used is <a href="http://tranquil-peak-82564.herokuapp.com/api/v1.0/data/iris/" target="_blank">here</a>. The libraries utilized include:<br> <a href="https://github.com/dc-js/dc.js" target="_blank">DC.js</a>, Version: 1.7.5<br> <a href="https://github.com/jashkenas/underscore" target="_blank">Underscore.js</a>, Version: 1.8.3<br> <a href="https://github.com/square/crossfilter" target="_blank">Crossfilter.js</a>, Version: 1.3.12
 						</p>
 
 						<hr>
-						
-						<canvas id="some_name"></canvas>
-						
+
+						<div id="iris_crossfilter" style="border:1px dotted black"> 
+
+							<div style="float:left;">
+								  <div id="resetButton"></div>
+								</div>
+								<br><br>
+								<div style="display:inline-block;">
+								  <h3>Sepal Length</h3>
+								  <div id="sepal_length_chart"></div>
+								</div>
+
+								<div style="display:inline-block;">
+								  <h3>Species</h3>
+								  <div id="species_chart"></div>
+								</div>
+
+								<div style="display:inline-block;">
+								  <h3>Sepal Width</h3>
+								  <div id="sepal_width_chart"></div>
+								</div>
+
+								<div style="display:inline-block;">
+								  <h3>Petal Length</h3>
+								  <div id="petal_length_chart"></div>
+								</div>
+
+								<div style="display:inline-block;">
+								  <h3>Petal Width</h3>
+								  <div id="petal_width_chart"></div>
+								</div>
+
+						</div>
+						<br><br>
 						<hr>
 
 					</div>
 					<!-- end viz 2 -->
+
+					<!-- begin viz 3 -->
+					<div class=".col-xs-12 .col-md-8">
+						<h3 id="donutviz">
+							Customize Your Donut with D3.js <small><i><a href="#">(back to top)</a></i></small>
+						</h3>
+
+						<p>
+							This visualization uses the D3.js library to display hierarchical relationships in our Donut dataset. The dataset contains a menu featuring several donut items, each corresponding to its own set of batters, toppings and fillings. We also added in interactive radial transitions to fold and unfold children when a node is clicked. As previously mentioned, the library used for this visualization is <a href="https://github.com/mbostock/d3" target="_blank">D3.js (Version 3.5.6)</a>. 
+						</p>
+
+						<hr>
+
+						<div id="hierarchy_container" style="border:1px dotted black"> 
+							<div id="hierarchy"></div>
+						</div>
+						<br><br>
+						<hr>
+
+					</div>
+					<!-- end viz 3 -->
+
+					<!-- begin viz 3 -->
+					<div class=".col-xs-12 .col-md-8">
+						<h3 id="ebolaviz">
+							The Evolution of Ebola, 2014-2016: A Story in C3.js <small><i><a href="#">(back to top)</a></i></small>
+						</h3>
+
+						<p>
+							Ebola took a massive toll on African countries, particularly in recent years. This visualization examines the number of Ebola case from 2014 to present day, how it has evolved, and the severity of the disease in various nations. The charts highlight the staggering numbers and notable trends. The data used was pulled from <a href="https://data.hdx.rwlabs.org/ebola" target="_blank">here</a>. Libraries used include:<br>
+                <a href="https://github.com/mbostock/d3" target="_blank">D3.js</a>, Version 3.5.6<br> <a href="https://github.com/c3js/c3" target="_blank">C3.js</a>, Version 0.4.10 
+						</p>
+
+						<hr>
+
+						<div class="container-fluid" style="margin-top:10px;">
+						  <div class="row">
+						    <div class="col-md-8">
+						      <div id="chart"></div>
+						    </div>
+						    <div class="col-md-4 well pull-right">
+						      <h2>The Evolution of Ebola: 2014-2016</h2>
+						      <hr>
+						      <p id="message"></p>
+						      <button id="start_btn" class="btn btn-primary pull-right">Start</button>
+						    </div>
+						  </div>
+						</div>
+						
+						<br><br>
+						<hr>
+
+					</div>
+					<!-- end viz 3 -->
+
+					<!-- begin viz 4 -->
+					<!--<div class=".col-xs-12 .col-md-8">
+						<h3 id="boids">
+							A Swarming Simulation Using the Boids Algorithm <small><i><a href="#">(back to top)</a></i></small>
+						</h3>
+
+						<p>
+							This swarming simulation uses the Boids algorithm, which was developed in 1986 to simulate the flocking behavior of birds. The user can interact with and change the visualization by adjusting the various parameters found in the box to the right. The main library used for this implementation is:<br>
+                <a href="https://github.com/mrdoob/three.js/" target="_blank">Three.js</a>					</p>
+
+						<hr>
+						
+						<div id="container"></div>
+						<canvas id="three_boid" ></canvas>
+					</div>
+					<!-- end viz 4 -->
 
 				</div>
 				<!-- end row -->
@@ -84,14 +271,68 @@
 	<!-- begin footer -->
 	<div id="footer">
 	  <div class="container">
-			<p class="text-muted credit"><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="assets/images/cc_80x15.png" /></a> <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">This Portfolio</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://web.stanford.edu/~dderiso/cme151/" property="cc:attributionName" rel="cc:attributionURL">Your Name</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>. Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/dderiso/stanford_data_viz_course" rel="dct:source">https://github.com/dderiso/stanford_data_viz_course</a>.</p>
+			<p class="text-muted credit"><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="assets/images/cc_80x15.png" /></a> <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">This Portfolio</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://web.stanford.edu/~dderiso/cme151/" property="cc:attributionName" rel="cc:attributionURL">Ashley Yu</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>. Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/dderiso/stanford_data_viz_course" rel="dct:source">https://github.com/dderiso/stanford_data_viz_course</a>.</p>
 	  </div>
 	</div>
 	<!-- end footer -->
 
 	<!-- processing_random_triangle_meshes dependencies -->
-	<script src='https://cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.16/processing.min.js'></script>
-	<script src='assets/js/random_triangle_meshes/random_triangle_meshes.js'></script>
+	<!--<script src='https://cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.16/processing.min.js'></script>
+	<script src='assets/js/random_triangle_meshes/random_triangle_meshes.js'></script> -->
+
+	<!-- dcjs_baseball -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.7/crossfilter.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js'></script>
+    <script src='http://seiyria.com/bootstrap-slider/js/bootstrap-slider.js'></script> 
+    <script src='http://seiyria.com/bootstrap-slider/dependencies/js/jquery.min.js'></script>
+    <script src='assets/js/dcjs_baseball/dcjs_baseball.js'></script>
+
+    <!-- iris_crossfilter -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.1/dc.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.min.js'></script>
+    <script src='assets/js/iris_crossfilter/iris_crossfilter.js'></script>
+
+    <!-- d3_tutorial -->
+    <script src='assets/js/d3_tutorial/d3_tutorial.js'></script>
+
+    <!-- c3_tutorial -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js'></script>
+    <script src='assets/js/ebola/ebola.js'></script>
+
+    <!--final particle stuff-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r76/three.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
+		<!-- Physics - Particle -->
+		<!-- <script src="/assets/js/physics/physics_particle.js"></script> -->
+	<!--<script src="assets/js/physics/physics_particle_simple.js"></script>
+	<script src="assets/js/physics/physics_particle.js"></script>
+
+		<!-- Render - Particle -->
+	<!--<script src="assets/js/renderers/render_particle.js"></script>-->
+
+
+
+	<script src="assets/js/libs/ui/dat.gui.min.js"></script>
+		<script src="assets/js/libs/ui/stats.min.js"></script>
+		<script src="assets/js/libs/maths/vector3.js"></script>
+
+		<!-- Renderer -->
+		<script src="assets/js/libs/renderers/three/three.min.js"></script>
+		<script src="assets/js/libs/renderers/three/plugins/AxesHelper2.js"></script>
+		<script src="assets/js/libs/renderers/three/plugins/DeviceOrientationControls.js"></script>
+		<script src="assets/js/libs/renderers/three/plugins/OrbitControls.js"></script>
+
+		<!-- Physics - Boid -->
+		<script src="assets/js/libs/physics/boids.js"></script>
+
+		<!-- Render - Boid -->
+		<script src="assets/js/main/boids_prototypes_for_three.js"></script>
+		<script src="assets/js/main/boids_three.js"></script>
+
+
+
 
 </body>
 </html>
